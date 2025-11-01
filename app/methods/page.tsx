@@ -1,6 +1,6 @@
 'use client';
-import AuthGuard from '@/components/AuthGuard';
-import { supabase } from '@/lib/supabaseClient';
+import AuthGuard from '../../components/AuthGuard';
+import { supabase } from '../../lib/supabaseClient';
 import { useEffect, useState } from 'react';
 export default function Page(){ return <AuthGuard><Methods/></AuthGuard>; }
 function Methods(){
