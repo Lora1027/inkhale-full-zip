@@ -1,9 +1,9 @@
 'use client';
-import AuthGuard from '@/components/AuthGuard';
-import { supabase } from '@/lib/supabaseClient';
+import AuthGuard from '../../components/AuthGuard';
+import { supabase } from '../../lib/supabaseClient';
 import Papa from 'papaparse';
 import { useEffect, useMemo, useState } from 'react';
-import { Filters, FiltersState, applyFilters } from '@/components/Filters';
+import { Filters, FiltersState, applyFilters } from '../../components/Filters';
 export default function Page(){ return <AuthGuard><Inventory/></AuthGuard>; }
 function Inventory(){
   const [rows, setRows] = useState<any[]>([]);
