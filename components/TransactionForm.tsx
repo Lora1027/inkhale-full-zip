@@ -1,6 +1,6 @@
 'use client';
 import { useEffect, useState } from 'react';
-import { supabase } from '@/lib/supabaseClient';
+import { supabase } from '../lib/supabaseClient';
 
 export type Tx = { id?: string; date: string; type: 'income'|'expense'; category: string; method?: string|null; note?: string|null; amount: number };
 
