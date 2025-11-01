@@ -1,8 +1,8 @@
 'use client';
-import AuthGuard from '@/components/AuthGuard';
-import { supabase } from '@/lib/supabaseClient';
+import AuthGuard from '../../components/AuthGuard';
+import { supabase } from '../../lib/supabaseClient';
 import { useEffect, useMemo, useState } from 'react';
-import { Filters, FiltersState, applyFilters } from '@/components/Filters';
+import { Filters, FiltersState, applyFilters } from '../../components/Filters';
 import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, Legend, CartesianGrid } from 'recharts';
 export default function Page(){ return <AuthGuard><Comparison/></AuthGuard>; }
 function Comparison(){
