@@ -13,34 +13,32 @@ export default function TransactionForm({ open, onClose, initial, onSaved }:{ op
   }, [initial]);
 
   if (!open) return null;
-  const save = async () => {
-    const payload = { ...form, amount: Number(form.amount) };
-    if (initial?.id){
-      await supabase.from('transactions').update(payload).eq('id', initial.id);
-    } else {
-      await supabase.from('transactions').insert(payload as any);
-    }
-    onSaved(); onClose();
-  };
-  return (
-    <div className="fixed inset-0 bg-black/30 flex items-center justify-center z-50">
-      <div className="bg-white rounded-2xl shadow-xl p-4 w-full max-w-md">
-        <h3 className="text-lg font-semibold mb-2">{initial?.id ? 'Edit' : 'Add'} Transaction</h3>
-        <div className="grid gap-2">
-          <input type="date" className="border rounded-xl p-2" value={form.date} onChange={e=>setForm({...form, date:e.target.value})}/>
-          <select className="border rounded-xl p-2" value={form.type} onChange={e=> setForm({...form, type: e.target.value as any})}>
-            <option value="income">Income</option><option value="expense">Expense</option>
-          </select>
-          <input className="border rounded-xl p-2" placeholder="Category" value={form.category} onChange={e=>setForm({...form, category:e.target.value})}/>
-          <input className="border rounded-xl p-2" placeholder="Method (Cash, Card…)" value={form.method || ''} onChange={e=>setForm({...form, method:e.target.value})}/>
-          <input className="border rounded-xl p-2" placeholder="Note" value={form.note || ''} onChange={e=>setForm({...form, note:e.target.value})}/>
-          <input type="number" className="border rounded-xl p-2" placeholder="Amount" value={form.amount} onChange={e=>setForm({...form, amount:Number(e.target.value)})}/>
-        </div>
-        <div className="flex gap-2 mt-3 justify-end">
-          <button className="px-3 py-1.5 rounded-xl border" onClick={onClose}>Cancel</button>
-          <button className="px-3 py-1.5 rounded-xl bg-gray-900 text-white" onClick={save}>{initial?.id ? 'Save' : 'Add'}</button>
-        </div>
-      </div>
-    </div>
-  );
-}
+const save = async () => {
+  const { data: userData } = await supabase.auth.getUser();
+  const uid = userData?.user?.id;
+  if (!uid) {
+    alert('Not logged in');
+    return;
+  }
+
+  const payload = { ...form, amount: Number(form.amount), user_id: uid };
+
+  let error;
+  if (initial?.id) {
+    ({ error } = await supabase
+      .from('transactions')
+      .update(payload)
+      .eq('id', initial.id));
+  } else {
+    ({ error } = await supabase.from('transactions').insert(payload as any));
+  }
+
+  if (error) {
+    console.error(error);
+    alert('Save failed: ' + error.message);
+    return;
+  }
+
+  onSaved();
+  onClose();
+};
