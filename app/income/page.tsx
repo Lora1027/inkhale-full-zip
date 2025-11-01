@@ -1,9 +1,9 @@
 'use client';
-import AuthGuard from '@/components/AuthGuard';
-import { supabase } from '@/lib/supabaseClient';
+import AuthGuard from '../../components/AuthGuard';
+import { supabase } from '../../lib/supabaseClient';
 import { useEffect, useMemo, useState } from 'react';
-import { Filters, FiltersState, applyFilters } from '@/components/Filters';
-import TransactionForm from '@/components/TransactionForm';
+import { Filters, FiltersState, applyFilters } from '../../components/Filters';
+import TransactionForm from '../../components/TransactionForm';
 import { Pencil, Trash2, Plus } from 'lucide-react';
 
 export default function Page(){
